@@ -1,4 +1,6 @@
-# Python
+# ============================================
+# 🐍 Python
+# ============================================
 __pycache__/
 *.py[cod]
 *$py.class
@@ -10,28 +12,77 @@ ENV/
 *.egg-info/
 dist/
 build/
+.mypy_cache/
+.pytest_cache/
+.coverage
+*.pyo
+*.pyd
 
-# Database
+# ============================================
+# 🗄️ Database
+# ============================================
 *.db
 *.sqlite3
+*.sqlite
+*.bak
+*.sql
 
-# Environment
+# ============================================
+# 🌱 Environment
+# ============================================
 .env
 .env.local
+.env.*.local
 
-# IDE
+# ============================================
+# 💻 IDE / OS files
+# ============================================
 .vscode/
 .idea/
 *.swp
 *.swo
 .DS_Store
-
-# Docker
-.docker/
-
-# Logs
-*.log
-
-# OS
 Thumbs.db
 
+# ============================================
+# 🐳 Docker
+# ============================================
+.docker/
+docker-compose.override.yml
+*.pid
+
+# ============================================
+# 📦 Node / Frontend (caso tenha React, Next, etc.)
+# ============================================
+node_modules/
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+.pnp.*
+.pnp.js
+.cache/
+.next/
+out/
+coverage/
+build/
+*.tsbuildinfo
+
+# ============================================
+# 🧾 Logs
+# ============================================
+*.log
+logs/
+npm-debug.log*
+yarn-debug.log*
+lerna-debug.log*
+
+# ============================================
+# 🧰 Miscellaneous
+# ============================================
+*.pem
+*.key
+*.crt
+*.zip
+*.tar
+*.gz
+*.rar

@@ -86,6 +86,12 @@ def setup_base_data(conn):
     """Create brands, channels, payment types"""
     print("Setting up base data...")
     cursor = conn.cursor()
+    # Ensure brand exists (some environments may start with an empty DB)
+    cursor.execute("SELECT id FROM brands WHERE id = %s", (BRAND_ID,))
+    if not cursor.fetchone():
+        # Insert a default brand with the expected BRAND_ID so foreign keys succeed
+        cursor.execute("INSERT INTO brands (id, name) VALUES (%s, %s)",
+                       (BRAND_ID, f'Challenge Brand {BRAND_ID}'))
     
     # Sub-brands
     sub_brands = ['Challenge Burger', 'Challenge Pizza', 'Challenge Sushi']

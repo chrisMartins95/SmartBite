@@ -8,6 +8,7 @@ services:
       POSTGRES_DB: challenge_db
       POSTGRES_USER: challenge
       POSTGRES_PASSWORD: challenge_2024
+      
     ports:
       - "5432:5432"
     volumes:
