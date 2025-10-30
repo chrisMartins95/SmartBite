@@ -5,7 +5,9 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "echo \"Error: no test specified\" && exit 1",
+  "dev": "nodemon index.ts",
+  "start": "node --loader ts-node/esm src/index.ts"
   },
   "keywords": [],
   "author": "",
@@ -22,6 +24,7 @@
     "@types/node": "^24.9.2",
     "@types/pg": "^8.15.6",
     "ts-node-dev": "^2.0.0",
+    "ts-node": "^10.9.1",
     "typescript": "^5.9.3"
   }
 }

@@ -1,4 +1,4 @@
-version: '3.8'
+
 
 services:
   postgres:
@@ -53,6 +53,25 @@ services:
       - postgres
     profiles:
       - tools
+
+  backend:
+    build:
+      context: ./nola-dashboard/backend
+      dockerfile: Dockerfile
+    container_name: godlevel-backend
+    environment:
+      - NODE_ENV=development
+      - DB_HOST=postgres
+      - DB_PORT=5432
+      - DB_USER=challenge
+      - DB_PASSWORD=challenge_2024
+      - DB_NAME=challenge_db
+      - PORT=5000
+    ports:
+      - "5000:5000"
+    depends_on:
+      postgres:
+        condition: service_healthy
 
 volumes:
   postgres_data:
