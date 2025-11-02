@@ -1,170 +1,252 @@
-import { useEffect, useState } from "react";
-import api from "../api/api";
-import { Card } from "../components/Card";
-import { ChartBar } from "../components/ChartBar";
-import { ChartLine } from "../components/ChartLine";
-import { Topbar } from "../components/Topbar";
+import React from "react";
+import { MetricCard } from "../components/metric-card";
+import { FilterBar, type FilterState } from "../components/filter-bar";
 
-// ✅ Função para formatar valores em reais
-function currency(value: number): string {
-  return value.toLocaleString("pt-BR", {
-    style: "currency",
-    currency: "BRL",
-  });
-}
+import {
+  LineChart,
+  Line,
+  XAxis,
+  YAxis,
+  CartesianGrid,
+  Tooltip,
+  PieChart,
+  Pie,
+  Cell,
+  BarChart,
+  Bar,
+  ResponsiveContainer,
+} from "recharts";
 
-// Tipagens
-interface MetricData {
-  total_revenue: number;
-  total_sales: number;
-  avg_ticket: number;
-}
+import { DollarSign } from "lucide-react";
 
-interface TimeSeriesItem {
-  day: string;
-  sales_count: number;
-  revenue: number;
-}
+// 🎨 Cores para o gráfico de pizza
+const COLORS = ["#3B82F6", "#10B981", "#F59E0B", "#EF4444"];
 
-interface ChannelData {
-  channel: string;
-  sales_count: number;
-}
+// 📊 Dados simulados (substitua depois pelos reais)
+const revenueData = [
+  { name: "Jan", revenue: 42000, orders: 120 },
+  { name: "Fev", revenue: 38000, orders: 100 },
+  { name: "Mar", revenue: 45000, orders: 150 },
+  { name: "Abr", revenue: 47000, orders: 160 },
+  { name: "Mai", revenue: 52000, orders: 180 },
+];
+
+const channelData = [
+  { name: "Site", value: 45 },
+  { name: "Instagram", value: 25 },
+  { name: "WhatsApp", value: 20 },
+  { name: "Outros", value: 10 },
+];
+
+const productData = [
+  { name: "Produto A", sales: 400 },
+  { name: "Produto B", sales: 300 },
+  { name: "Produto C", sales: 250 },
+  { name: "Produto D", sales: 200 },
+  { name: "Produto E", sales: 150 },
+];
+
+const transactions = [
+  { id: 1, product: "Produto A", amount: "R$ 200,00", status: "Pago", date: "01/11/2025" },
+  { id: 2, product: "Produto B", amount: "R$ 150,00", status: "Pendente", date: "31/10/2025" },
+  { id: 3, product: "Produto C", amount: "R$ 300,00", status: "Pago", date: "30/10/2025" },
+];
 
 export default function Dashboard() {
-  const [metrics, setMetrics] = useState<MetricData | null>(null);
-  const [timeseries, setTimeseries] = useState<TimeSeriesItem[]>([]);
-  const [byChannel, setByChannel] = useState<ChannelData[]>([]);
-  const [loading, setLoading] = useState(true);
-
-  // 🔄 Carrega dados
-  useEffect(() => {
-    async function fetchData() {
-      try {
-        const [metricsRes, timeseriesRes, channelRes] = await Promise.all([
-          api.get("/metrics"),
-          api.get("/timeseries"),
-          api.get("/by-channel"),
-        ]);
-        setMetrics(metricsRes.data);
-        setTimeseries(timeseriesRes.data);
-        setByChannel(channelRes.data);
-      } catch (error) {
-        console.error("❌ Erro ao carregar dados do dashboard:", error);
-      } finally {
-        setLoading(false);
-      }
-    }
-    fetchData();
-  }, []);
+  const [filter, setFilter] = React.useState<Partial<FilterState>>({});
 
   return (
-    <div className="flex-1 flex flex-col min-h-screen bg-gray-50 dark:bg-gray-900 text-gray-900 dark:text-gray-100 transition-colors duration-300">
-      {/* 🔝 Topbar */}
-      <Topbar stores={[]} />
+    <div className="p-6 space-y-4 bg-background">
 
-      {/* 📦 Conteúdo principal */}
-      <main className="flex-1 container mx-auto px-4 py-8">
-        {/* 📅 Filtros e período */}
-        <section className="flex flex-wrap gap-4 mb-8 items-center">
-          <div className="flex items-center gap-2">
-            <label className="text-sm font-medium text-gray-700 dark:text-gray-300">
-              Data inicial:
-            </label>
-            <input
-              type="date"
-              className="border border-gray-300 dark:border-gray-700 rounded-md p-2 text-sm bg-white dark:bg-gray-800 text-gray-900 dark:text-gray-100"
-            />
-          </div>
+      {/* Barra de filtros */}
+      <FilterBar onFilterChange={setFilter} />
+      
+      {/* ✅ Título da página */}
+      <h1 className="text-2xl font-bold mb-2">Painel</h1>
 
-          <div className="flex items-center gap-2">
-            <label className="text-sm font-medium text-gray-700 dark:text-gray-300">
-              Data final:
-            </label>
-            <input
-              type="date"
-              className="border border-gray-300 dark:border-gray-700 rounded-md p-2 text-sm bg-white dark:bg-gray-800 text-gray-900 dark:text-gray-100"
-            />
-          </div>
+      {/* Cards */}
+      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
 
-          <button className="bg-blue-600 hover:bg-blue-700 text-white text-sm font-medium px-4 py-2 rounded-md transition-colors">
-            Filtrar
-          </button>
-        </section>
+        <MetricCard title="Faturamento Total" value="R$ 52.000,00" icon={<DollarSign className="h-6 w-6" />} />
 
-        {/* 🔄 Feedback de carregamento */}
-        {loading ? (
-          <div className="flex justify-center items-center h-64">
-            <div className="animate-spin rounded-full h-12 w-12 border-t-4 border-blue-500 border-solid"></div>
-          </div>
-        ) : (
-          <>
-            {/* 📊 Cards de métricas */}
-            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6 mb-8">
-              <div className="bg-white dark:bg-gray-800 rounded-2xl shadow-sm border border-gray-200 dark:border-gray-700 p-6 flex flex-col justify-between transition-transform hover:scale-[1.02]">
-                <span className="text-sm uppercase tracking-wide text-gray-500 dark:text-gray-400 font-medium">
-                  FATURAMENTO TOTAL
-                </span>
-                <span className="text-3xl md:text-4xl font-bold text-gray-900 dark:text-gray-100">
-                  {currency(metrics?.total_revenue || 0)}
-                </span>
-              </div>
+        <MetricCard
+          title="Total de Pedidos"
+          value="180"
+          icon={
+            <svg className="h-6 w-6" stroke="currentColor" fill="none">
+              <circle cx="8" cy="21" r="1" />
+              <circle cx="19" cy="21" r="1" />
+              <path d="M2.05 2.05h2l2.66 12.42a2 2 0 002 1.58h9.78a2 2 0 001.95-1.57L22 7H5.12" />
+            </svg>
+          }
+        />
 
-              <div className="bg-white dark:bg-gray-800 rounded-2xl shadow-sm border border-gray-200 dark:border-gray-700 p-6 flex flex-col justify-between transition-transform hover:scale-[1.02]">
-                <span className="text-sm uppercase tracking-wide text-gray-500 dark:text-gray-400 font-medium">
-                  TOTAL DE VENDAS
-                </span>
-                <span className="text-3xl md:text-4xl font-bold text-gray-900 dark:text-gray-100">
-                  {metrics?.total_sales || 0}
-                </span>
-              </div>
+        <MetricCard
+          title="Valor Médio do Pedido"
+          value="R$ 288,89"
+          icon={
+            <svg className="h-6 w-6" stroke="currentColor" fill="none">
+              <polyline points="22 7 13.5 15.5 8.5 10.5 2 17" />
+              <polyline points="16 7 22 7 22 13" />
+            </svg>
+          }
+        />
 
-              <div className="bg-white dark:bg-gray-800 rounded-2xl shadow-sm border border-gray-200 dark:border-gray-700 p-6 flex flex-col justify-between transition-transform hover:scale-[1.02]">
-                <span className="text-sm uppercase tracking-wide text-gray-500 dark:text-gray-400 font-medium">
-                  TICKET MÉDIO
-                </span>
-                <span className="text-3xl md:text-4xl font-bold text-gray-900 dark:text-gray-100">
-                  {currency(metrics?.avg_ticket || 0)}
-                </span>
-              </div>
-            </div>
+        <MetricCard
+          title="Lojas Ativas"
+          value="12"
+          icon={
+            <svg className="h-6 w-6" stroke="currentColor" fill="none">
+              <path d="m2 7 4.41-4.41A2 2 0 017.83 2h8.34a2 2 0 011.42.59L22 7" />
+              <path d="M4 12v8a2 2 0 002 2h12a2 2 0 002-2v-8" />
+              <path d="M15 22v-4a2 2 0 00-2-2h-2a2 2 0 00-2 2v4" />
+              <path d="M2 7h20" />
+            </svg>
+          }
+        />
+      </div>
 
-            {/* 📈 Gráficos */}
-            <div className="grid grid-cols-1 lg:grid-cols-2 gap-8">
-              {/* Painel Faturamento */}
-              <div className="bg-white dark:bg-gray-800 rounded-2xl shadow p-6 flex flex-col h-full border border-gray-200 dark:border-gray-700">
-                <h3 className="text-lg font-semibold mb-4 text-gray-900 dark:text-gray-100">
-                  Evolução do Faturamento
-                </h3>
-                <div className="flex-1">
-                  <ChartLine
-                    data={timeseries.map((t) => ({
-                      day: t.day,
-                      sales_count: t.sales_count,
-                      revenue: t.revenue,
-                    }))}
-                  />
-                </div>
-              </div>
+      {/* Gráficos */}
+      <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
 
-              {/* Painel Distribuição por Canal */}
-              <div className="bg-white dark:bg-gray-800 rounded-2xl shadow p-6 flex flex-col h-full border border-gray-200 dark:border-gray-700">
-                <h3 className="text-lg font-semibold mb-4 text-gray-900 dark:text-gray-100">
-                  Distribuição por Canal
-                </h3>
-                <div className="flex-1">
-                  <ChartBar
-                    data={byChannel.map((c) => ({
-                      produto: c.channel,
-                      quantidade_vendida: c.sales_count,
-                    }))}
-                  />
-                </div>
-              </div>
-            </div>
-          </>
-        )}
-      </main>
+        {/* ✅ Gráfico de tendência */}
+        <div className="bg-card border border-card-border rounded-lg px-6 py-4">
+          <h2 className="text-lg font-semibold mb-4">Tendência de Receita e Pedidos</h2>
+
+          <ResponsiveContainer width="100%" height={300}>
+            <LineChart data={revenueData}>
+              <CartesianGrid strokeDasharray="3 3" stroke="#e5e7eb" />
+
+              <YAxis
+                yAxisId="left"
+                width={70}
+                tick={{ fontSize: 11 }}
+                stroke="#3B82F6"
+                tickFormatter={(v) => `R$ ${v.toLocaleString("pt-BR", { notation: "compact" })}`}
+              />
+
+              <YAxis yAxisId="right" orientation="right" stroke="#10B981" width={40} tick={{ fontSize: 11 }} />
+
+              <XAxis dataKey="name" stroke="#9CA3AF" />
+
+              <Tooltip formatter={(value, name) =>
+                name === "revenue" ? [`R$ ${value.toLocaleString("pt-BR")}`, "Receita"] : [value, "Pedidos"]
+              } />
+
+              <Line yAxisId="left" type="monotone" dataKey="revenue" stroke="#3B82F6" strokeWidth={3} dot={false} />
+              <Line yAxisId="right" type="monotone" dataKey="orders" stroke="#10B981" strokeWidth={3} dot={false} />
+            </LineChart>
+          </ResponsiveContainer>
+        </div>
+
+        {/* ✅ GRÁFICO DE PIZZA — atualizado com labels coloridos */}
+        <div className="bg-card border border-card-border rounded-lg px-6 py-4">
+          <h2 className="text-lg font-semibold mb-4">Vendas por Canal</h2>
+
+          <ResponsiveContainer width="100%" height={300}>
+            <PieChart>
+              <Pie
+                data={channelData}
+                dataKey="value"
+                nameKey="name"
+                cx="50%"
+                cy="50%"
+                outerRadius={100}
+                label={({ name, value, percent, cx, cy, midAngle, outerRadius, index }) => {
+                  const RADIAN = Math.PI / 180;
+                  const radius = outerRadius + 20;
+                  const x = cx + radius * Math.cos(-midAngle * RADIAN);
+                  const y = cy + radius * Math.sin(-midAngle * RADIAN);
+
+                  return (
+                    <text
+                      x={x}
+                      y={y}
+                      fill={COLORS[index]}
+                      textAnchor={x > cx ? "start" : "end"}
+                      dominantBaseline="central"
+                      fontSize={14}
+                      fontWeight={700}
+                    >
+                      {`${name}: ${(percent * 100).toFixed(0)}%`}
+                    </text>
+                  );
+                }}
+              >
+                {channelData.map((entry, index) => (
+                  <Cell key={index} fill={COLORS[index]} />
+                ))}
+              </Pie>
+              <Tooltip />
+            </PieChart>
+          </ResponsiveContainer>
+        </div>
+      </div>
+
+      {/* Gráfico de Barras */}
+      {/* ✅ Gráfico de Barras — agora horizontal */}
+<div className="bg-card border border-card-border rounded-lg px-6 py-4">
+  <h2 className="text-lg font-semibold mb-4">Top 5 Produtos</h2>
+
+  <ResponsiveContainer width="100%" height={320}>
+    <BarChart
+      data={productData}
+      layout="vertical"       // ✅ transforma o gráfico em horizontal
+      margin={{ top: 10, right: 30, left: 80, bottom: 10 }}
+    >
+      <CartesianGrid strokeDasharray="3 3" stroke="#e5e7eb" />
+
+      {/* ✅ Produtos no eixo Y */}
+      <YAxis
+        type="category"
+        dataKey="name"
+        tick={{ fill: "hsl(var(--muted-foreground))", fontSize: 12 }}
+        width={80}
+      />
+
+      {/* ✅ Valores no eixo X */}
+      <XAxis
+        type="number"
+        tick={{ fill: "hsl(var(--muted-foreground))", fontSize: 12 }}
+      />
+
+      <Tooltip />
+
+      {/* ✅ Barra horizontal */}
+      <Bar dataKey="sales" fill="#3B82F6" radius={[0, 6, 6, 0]} />
+    </BarChart>
+  </ResponsiveContainer>
+</div>
+
+
+      {/* Tabela */}
+      <div className="bg-card border border-card-border rounded-lg px-6 py-4">
+        <h2 className="text-lg font-semibold mb-4">Transações Recentes</h2>
+
+        <table className="w-full text-sm">
+          <thead>
+            <tr className="border-b border-card-border text-left">
+              <th className="py-2">Produto</th>
+              <th className="py-2">Valor</th>
+              <th className="py-2">Status</th>
+              <th className="py-2">Data</th>
+            </tr>
+          </thead>
+
+          <tbody>
+            {transactions.map((t) => (
+              <tr key={t.id} className="border-b border-card-border hover:bg-muted/20 transition">
+                <td className="py-2">{t.product}</td>
+                <td className="py-2">{t.amount}</td>
+                <td className="py-2">{t.status}</td>
+                <td className="py-2">{t.date}</td>
+              </tr>
+            ))}
+          </tbody>
+
+        </table>
+      </div>
+
     </div>
   );
 }

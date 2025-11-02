@@ -10,6 +10,7 @@ import { AppSidebar } from "./components/app-sidebar.tsx";
 import Dashboard from "./pages/Dashboard.tsx";
 import NotFound from "./pages/not-found.tsx";
 
+
 function Router() {
   return (
     <Switch>
@@ -18,8 +19,8 @@ function Router() {
         path="/analytics"
         component={() => (
           <div className="p-8">
-            <h1 className="text-2xl font-semibold">Analytics</h1>
-            <p className="text-gray-500 dark:text-gray-400 mt-2">
+            <h1 className="text-2xl font-semibold text-foreground">Analytics</h1>
+            <p className="text-muted-foreground mt-2">
               Custom analytics builder coming soon...
             </p>
           </div>
@@ -29,8 +30,8 @@ function Router() {
         path="/products"
         component={() => (
           <div className="p-8">
-            <h1 className="text-2xl font-semibold">Products</h1>
-            <p className="text-gray-500 dark:text-gray-400 mt-2">
+            <h1 className="text-2xl font-semibold text-foreground">Products</h1>
+            <p className="text-muted-foreground mt-2">
               Product performance analysis coming soon...
             </p>
           </div>
@@ -40,8 +41,8 @@ function Router() {
         path="/stores"
         component={() => (
           <div className="p-8">
-            <h1 className="text-2xl font-semibold">Stores</h1>
-            <p className="text-gray-500 dark:text-gray-400 mt-2">
+            <h1 className="text-2xl font-semibold text-foreground">Stores</h1>
+            <p className="text-muted-foreground mt-2">
               Store comparison coming soon...
             </p>
           </div>
@@ -51,8 +52,8 @@ function Router() {
         path="/trends"
         component={() => (
           <div className="p-8">
-            <h1 className="text-2xl font-semibold">Trends</h1>
-            <p className="text-gray-500 dark:text-gray-400 mt-2">
+            <h1 className="text-2xl font-semibold text-foreground">Trends</h1>
+            <p className="text-muted-foreground mt-2">
               Trend analysis coming soon...
             </p>
           </div>
@@ -62,10 +63,8 @@ function Router() {
         path="/settings"
         component={() => (
           <div className="p-8">
-            <h1 className="text-2xl font-semibold">Settings</h1>
-            <p className="text-gray-500 dark:text-gray-400 mt-2">
-              Settings coming soon...
-            </p>
+            <h1 className="text-2xl font-semibold text-foreground">Settings</h1>
+            <p className="text-muted-foreground mt-2">Settings coming soon...</p>
           </div>
         )}
       />
@@ -87,7 +86,7 @@ export default function App() {
         <TooltipProvider>
           <div
             style={style as React.CSSProperties}
-            className="flex h-screen w-full bg-gray-50 dark:bg-gray-950 text-gray-900 dark:text-gray-100 transition-colors duration-300"
+            className="flex h-screen w-full bg-background text-foreground transition-colors duration-300"
           >
             {/* Sidebar */}
             <AppSidebar
@@ -102,11 +101,11 @@ export default function App() {
               }`}
             >
               {/* Header */}
-              <header className="flex items-center justify-between px-5 py-3 border-b border-gray-200 dark:border-gray-700 bg-white dark:bg-gray-900 transition-colors duration-300 shadow-sm">
+              <header className="flex items-center justify-between px-5 py-3 border-b border-surface bg-surface text-foreground shadow-sm transition-colors duration-300">
                 {/* Botão toggle sidebar */}
                 <button
                   onClick={() => setSidebarOpen(!sidebarOpen)}
-                  className="inline-flex items-center justify-center gap-2 rounded-lg text-gray-700 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-800 h-9 w-9 transition"
+                  className="inline-flex items-center justify-center gap-2 rounded-lg text-foreground hover:bg-elevate-1 dark:hover:bg-elevate-2 h-9 w-9 transition"
                   aria-label="Alternar menu lateral"
                 >
                   <svg
@@ -131,7 +130,7 @@ export default function App() {
               </header>
 
               {/* Conteúdo principal da página */}
-              <main className="flex-1 overflow-y-auto bg-gray-50 dark:bg-gray-950 text-gray-900 dark:text-gray-100 transition-colors duration-300">
+              <main className="flex-1 overflow-y-auto bg-background text-foreground transition-colors duration-300 p-4">
                 <Router />
               </main>
             </div>

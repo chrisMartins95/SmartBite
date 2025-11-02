@@ -10,7 +10,9 @@ export function ChartCard({ title, children }: ChartCardProps) {
   return (
     <Card>
       <CardHeader className="flex items-center justify-between p-4">
-        <h3 className="text-lg font-medium">{title}</h3>
+        <h3 className="text-lg font-normal" style={{ color: 'hsl(var(--foreground))' }}>
+          {title}
+        </h3>
       </CardHeader>
       <CardContent>{children}</CardContent>
     </Card>

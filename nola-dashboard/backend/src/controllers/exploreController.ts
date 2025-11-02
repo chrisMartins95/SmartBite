@@ -108,3 +108,81 @@ export const explorar = async (req: Request, res: Response) => {
     res.status(500).json({ error: 'Erro ao explorar dados' });
   }
 };
+
+// Endpoints individuais para Explorar
+export const getExploreMetrics = async (req: Request, res: Response) => {
+  try {
+    const { whereSQL, valores } = buildFilters(req.query);
+    const metricsQuery = `
+      SELECT
+        COUNT(*)::int AS total_sales,
+        COALESCE(ROUND(SUM(total_amount)::numeric, 2), 0) AS total_revenue,
+        COALESCE(ROUND(AVG(total_amount)::numeric, 2), 0) AS avg_ticket
+      FROM sales s
+      ${whereSQL};
+    `;
+    const metricsResult = await pool.query(metricsQuery, valores);
+    res.json(metricsResult.rows[0] || { total_sales: 0, total_revenue: 0, avg_ticket: 0 });
+  } catch (err) {
+    console.error('Error getting explore metrics:', err);
+    res.status(500).json({ error: 'Error getting explore metrics' });
+  }
+};
+
+export const getSalesTimeseries = async (req: Request, res: Response) => {
+  try {
+    const { whereSQL, valores } = buildFilters(req.query);
+    const timeseriesQuery = `
+      SELECT DATE_TRUNC('day', s.created_at)::date AS day, COUNT(*)::int AS sales_count, COALESCE(ROUND(SUM(s.total_amount)::numeric,2),0) AS revenue
+      FROM sales s
+      ${whereSQL}
+      GROUP BY day
+      ORDER BY day ASC
+      LIMIT 365;
+    `;
+    const timeseriesResult = await pool.query(timeseriesQuery, valores);
+    res.json(timeseriesResult.rows);
+  } catch (err) {
+    console.error('Error getting sales timeseries:', err);
+    res.status(500).json({ error: 'Error getting sales timeseries' });
+  }
+};
+
+export const getExploreSalesByChannel = async (req: Request, res: Response) => {
+  try {
+    const { whereSQL, valores } = buildFilters(req.query);
+    const byChannelQuery = `
+      SELECT c.name AS channel, COUNT(*)::int AS sales_count, COALESCE(ROUND(SUM(s.total_amount)::numeric,2),0) AS revenue
+      FROM sales s
+      JOIN channels c ON s.channel_id = c.id
+      ${whereSQL}
+      GROUP BY c.name
+      ORDER BY sales_count DESC;
+    `;
+    const byChannelResult = await pool.query(byChannelQuery, valores);
+    res.json(byChannelResult.rows);
+  } catch (err) {
+    console.error('Error getting sales by channel:', err);
+    res.status(500).json({ error: 'Error getting sales by channel' });
+  }
+};
+
+export const getSalesByStore = async (req: Request, res: Response) => {
+  try {
+    const { whereSQL, valores } = buildFilters(req.query);
+    const byStoreQuery = `
+      SELECT st.name AS store, COUNT(*)::int AS sales_count, COALESCE(ROUND(SUM(s.total_amount)::numeric,2),0) AS revenue
+      FROM sales s
+      JOIN stores st ON s.store_id = st.id
+      ${whereSQL}
+      GROUP BY st.name
+      ORDER BY sales_count DESC
+      LIMIT 10;
+    `;
+    const byStoreResult = await pool.query(byStoreQuery, valores);
+    res.json(byStoreResult.rows);
+  } catch (err) {
+    console.error('Error getting sales by store:', err);
+    res.status(500).json({ error: 'Error getting sales by store' });
+  }
+};

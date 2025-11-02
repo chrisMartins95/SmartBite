@@ -1,41 +1,26 @@
-/* 🎨 Variáveis de tema */
-:root {
-  --bg: #0f1417;
-  --surface: #12181b;
-  --muted: #8a9499;
-  --accent: #ff5722;
-  --accent-2: #ff7043;
-  --card-shadow: 0 6px 18px rgba(0, 0, 0, 0.3);
-  --radius: 12px;
-}
+/* 🎨 Variáveis de tema já definidas no index.css */
 
-/* ✍️ Fonte moderna */
+/* ✍️ Fonte moderna importada */
 @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700;800&display=swap');
 
-body,
-#root,
-.app-shell {
-  font-family: 'Inter', system-ui, -apple-system, 'Segoe UI', Roboto, 'Helvetica Neue', Arial;
-  margin: 0;
-  min-height: 100vh;
-  width: 100%;
-  background: var(--bg);
-  color: #e6eef3;
-  display: flex;
-  flex-direction: column;
-}
-
-/* 📦 Contêiner principal */
-#root {
-  padding: 1.5rem;
-  max-width: 100%;
-  box-sizing: border-box;
+/* === DARK MODE === */
+.dark {
+  --background: 17 20% 12%;    /* fundo geral */
+  --surface: 18 22% 15%;       /* fundo de cards/painéis */
+  --muted: 31 38% 42%;         /* fundo de select e elementos secundários */
+  --foreground: 230 8% 90%;    /* cor do texto */
+  --muted-foreground: 215 10% 50%; /* textos secundários */
+  --border: 44 51% 55%;        /* bordas */
+  --accent: 14 100% 50%;       /* cor principal / gradiente */
+  --accent-2: 16 100% 55%;     /* cor secundária / gradiente */
+  --card-shadow: 0 6px 18px rgba(0, 0, 0, 0.3);
+  --radius: 12px;
 }
 
 /* 🧭 Sidebar */
 .sidebar {
   width: 260px;
-  background: #0b0f12;
+  background: hsl(var(--background));
   padding: 18px;
   box-shadow: 2px 0 8px rgba(0, 0, 0, 0.4);
   display: flex;
@@ -55,9 +40,9 @@ body,
 }
 
 .nav-item {
-  color: #b9c2c8;
+  color: hsl(var(--muted-foreground));
   padding: 10px 12px;
-  border-radius: 8px;
+  border-radius: var(--radius);
   display: flex;
   gap: 10px;
   align-items: center;
@@ -67,12 +52,12 @@ body,
 .nav-item.active,
 .nav-item:hover {
   background: rgba(255, 255, 255, 0.05);
-  color: #fff;
+  color: hsl(var(--foreground));
 }
 
 .sidebar .footer {
   margin-top: auto;
-  color: #93a0a6;
+  color: hsl(var(--muted-foreground));
   font-size: 0.9rem;
 }
 
@@ -82,13 +67,14 @@ body,
   padding: 20px 28px;
   width: 100%;
   box-sizing: border-box;
+  background: hsl(var(--background));
 }
 
 /* 💳 Cards */
 .metric-card {
-  border: 1px solid rgba(255, 255, 255, 0.05);
-  background: linear-gradient(180deg, rgba(255, 255, 255, 0.04), rgba(255, 255, 255, 0.02));
-  color: #e6eef3;
+  border: 1px solid hsl(var(--border));
+  background: hsl(var(--surface));
+  color: hsl(var(--foreground));
   border-radius: var(--radius);
   padding: 16px;
   box-shadow: var(--card-shadow);
@@ -115,7 +101,7 @@ body,
 
 .metric-large .label {
   font-size: 0.85rem;
-  color: #98a3a8;
+  color: hsl(var(--muted-foreground));
   margin-bottom: 6px;
 }
 
@@ -141,8 +127,8 @@ body,
 .panel {
   border-radius: var(--radius);
   padding: 18px;
-  background: linear-gradient(180deg, rgba(255, 255, 255, 0.03), rgba(255, 255, 255, 0.015));
-  border: 1px solid rgba(255, 255, 255, 0.05);
+  background: hsl(var(--surface));
+  border: 1px solid hsl(var(--border));
   box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
 }
 
@@ -175,10 +161,10 @@ body,
 
 /* ✨ Cabeçalho */
 .site-header {
-  background: linear-gradient(90deg, var(--accent-2), var(--accent));
-  color: white;
+  background: linear-gradient(90deg, hsl(var(--accent-2)), hsl(var(--accent)));
+  color: hsl(var(--foreground));
   padding: 1rem 1.25rem;
-  border-radius: 8px;
+  border-radius: var(--radius);
   box-shadow: var(--card-shadow);
   margin-bottom: 1rem;
 }
@@ -190,16 +176,17 @@ body,
 
 /* Botões */
 .nav-actions button {
-  background: white;
-  border: 1px solid rgba(0, 0, 0, 0.06);
+  background: hsl(var(--surface));
+  border: 1px solid hsl(var(--border));
   border-radius: 6px;
   cursor: pointer;
   padding: 6px 10px;
   transition: background 0.2s;
+  color: hsl(var(--foreground));
 }
 
 .nav-actions button:hover {
-  background: #f2f2f2;
+  background: hsl(var(--muted));
 }
 
 /* 🪶 Tabelas */
@@ -215,20 +202,46 @@ body,
 .data-table td {
   padding: 10px 12px;
   text-align: left;
-  color: #d7e2e6;
+  color: hsl(var(--foreground));
 }
 
 .data-table thead {
-  background: rgba(255, 255, 255, 0.05);
+  background: hsl(var(--surface) / 0.1);
 }
 
 .data-table tbody tr:nth-child(odd) {
-  background: rgba(255, 255, 255, 0.02);
+  background: hsl(var(--surface) / 0.05);
 }
 
 /* 🧠 Tipografia */
-h1,
-h2,
-h3 {
-  color: #e6eef3;
+h1, h2, h3 {
+  color: hsl(var(--foreground));
+}
+
+/* ✅ Correção final do calendário react-day-picker */
+.rdp-table {
+  width: 100% !important;
+  table-layout: fixed !important;
+}
+
+.rdp-head {
+  display: grid !important;
+  grid-template-columns: repeat(7, 1fr) !important;
+}
+
+.rdp-row {
+  display: grid !important;
+  grid-template-columns: repeat(7, 1fr) !important;
+}
+
+.rdp-weekday {
+  text-align: center !important;
+  font-weight: 600;
+  padding: 4px 0 !important;
+}
+
+.rdp-cell {
+  text-align: center !important;
+  padding: 0 !important;
+  height: 40px !important;
 }
