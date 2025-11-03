@@ -5,7 +5,7 @@ import {
   getSalesByChannel,
   getTopProducts,
   getRecentTransactions
-} from '../controllers/dashboardController.js';
+} from '../controllers/dashboardController';
 
 export const router = Router();
 

@@ -1,5 +1,5 @@
 import type { Request, Response } from 'express';
-import { pool } from '../db/connection.js';
+import { pool } from '../db/connection';
 
 export const getStores = async (req: Request, res: Response) => {
   try {

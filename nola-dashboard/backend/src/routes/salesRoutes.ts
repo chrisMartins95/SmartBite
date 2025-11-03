@@ -1,7 +1,7 @@
 import { Router } from 'express';
-import { getTopProdutos, getTopProdutosFiltrado } from '../controllers/salesController.js';
-import { explorar } from '../controllers/exploreController.js';
-import { getStores, getChannels } from '../controllers/metaController.js';
+import { getTopProdutos, getTopProdutosFiltrado } from '../controllers/salesController';
+import { explorar } from '../controllers/exploreController';
+import { getStores, getChannels } from '../controllers/metaController';
 
 export const router = Router();
 

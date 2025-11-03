@@ -1,5 +1,5 @@
 import type { Request, Response } from 'express';
-import { pool } from '../db/connection.js';
+import { pool } from '../db/connection';
 
 // Helper to build WHERE clause and params from query
 function buildFilters(query: any) {
