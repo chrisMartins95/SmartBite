@@ -30,31 +30,6 @@ A solução foi pensada para **usuários não técnicos**, permitindo que gestor
 
 A solução é separada em **frontend (React)** e **backend (Node + Express)**, comunicando-se via REST API.
 
-### Estrutura resumida:
-📦 saleshub
-├── frontend/
-│ ├── src/
-│ │ ├── api/ # Serviços Axios → backend
-│ │ ├── components/ # UI modular (cards, filtros, sidebar, etc.)
-│ │ ├── pages/ # Dashboard principal
-│ │ ├── lib/ # utilitários (cn, queryClient, etc.)
-│ │ └── App.tsx # Roteamento principal
-│ └── index.css # Estilos e variáveis de tema
-│
-├── backend/
-│ ├── src/
-│ │ ├── controllers/ # Lógica de cada rota
-│ │ ├── routes/ # Endpoints REST
-│ │ ├── db/ # Conexão com PostgreSQL
-│ │ └── server.ts # Configuração principal
-│
-└── package.json
-
-yaml
-Copiar código
-
----
-
 ## 🧠 Principais Funcionalidades
 
 ✅ **Filtros dinâmicos** — por data, loja e canal  
@@ -103,21 +78,25 @@ Copiar código
 ```bash
 git clone https://github.com/seuusuario/saleshub.git
 cd saleshub
+```
+
 🧩 2. Rodar o backend
-bash
+```bash
 Copiar código
 cd backend
 npm install
 npm run dev
+```
 O backend roda por padrão em: http://localhost:5000/api
 
 💻 3. Rodar o frontend
-bash
+```bash
 Copiar código
 cd frontend
 npm install
 npm run dev
 O frontend roda em: http://localhost:5173
+```
 
 🔗 Principais Endpoints (Backend)
 Endpoint	Descrição
@@ -149,25 +128,7 @@ Layout responsivo (mobile, tablet e desktop).
 
 Foco em acessibilidade: contraste e botões com aria-label.
 
-🧪 Testes (sugeridos)
-Unitários: funções utilitárias (currencyHuman, numberHuman, buildDashboardFilters).
 
-Integração: endpoints com Jest + Supertest.
-
-E2E (opcional): Cypress — fluxo de uso completo no dashboard.
-
-📽️ Roteiro do Vídeo de Apresentação
-Introdução (10s): Nome, objetivo da solução.
-
-Demonstração (1–2min):
-
-Mostrar filtros e atualização de métricas.
-
-Exibir gráficos e tabela de transações.
-
-Explicação técnica (1min): Arquitetura, decisões, escalabilidade.
-
-Encerramento (20s): O que foi aprendido e próximos passos.
 
 💡 Próximos Passos / Extensões
 Exportar relatórios (CSV/PDF).
@@ -178,13 +139,17 @@ Integração com APIs externas (e-commerce, ERP).
 
 Deploy no Render/Vercel com banco PostgreSQL na Railway.
 
+🧪 Testes (sugeridos)
+Unitários: funções utilitárias (currencyHuman, numberHuman, buildDashboardFilters).
+
+Integração: endpoints com Jest + Supertest.
+
+E2E (opcional): Cypress — fluxo de uso completo no dashboard.
+
 🧾 Licença
 Este projeto foi desenvolvido exclusivamente para o desafio técnico de estágio, com foco educacional e de demonstração.
 
 💬 Contato
 📧 Christian Martins
-🔗 LinkedIn (adicione seu link aqui)
+🔗 LinkedIn https://www.linkedin.com/in/christian-martins-/
 💻 Projeto criado com foco em clareza, escalabilidade e experiência do usuário.
-
-markdown
-Copiar código
