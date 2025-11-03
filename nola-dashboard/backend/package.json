@@ -3,8 +3,8 @@
   "version": "1.0.0",
   "main": "src/index.ts",
   "scripts": {
-    "dev": "ts-node-dev --respawn --transpile-only --ignore node_modules src/index.ts",
-    "start": "ts-node src/index.ts"
+      "dev": "ts-node-dev --respawn --transpile-only --ignore node_modules src/index.ts",
+      "start": "ts-node src/index.ts"
   },
   "dependencies": {
     "cors": "^2.8.5",

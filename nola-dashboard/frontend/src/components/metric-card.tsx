@@ -45,7 +45,7 @@ export function MetricCard({ title, value, trend, icon, className }: MetricCardP
         color: "hsl(var(--foreground))",
       }}
     >
-      {/* Ícone absoluto no canto superior direito */}
+      {/* Ícone */}
       <div
         className="absolute top-4 right-4"
         style={{ color: "hsl(var(--muted-foreground))" }}
@@ -61,8 +61,12 @@ export function MetricCard({ title, value, trend, icon, className }: MetricCardP
 
       <CardContent className="p-6 pt-0">
         <div
-          className="text-2xl font-bold"
+          className="text-2xl font-bold leading-tight"
           data-testid={`text-metric-value-${title.toLowerCase().replace(/\s+/g, "-")}`}
+          style={{
+            wordBreak: "keep-all",
+            whiteSpace: "nowrap",
+          }}
         >
           {value}
         </div>

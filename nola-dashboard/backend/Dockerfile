@@ -7,5 +7,4 @@ RUN npm install
 
 COPY . .
 
-# Rodar em modo desenvolvimento com ts-node-dev
-CMD ["npm", "run", "dev"]
+CMD ["npm", "start"]
