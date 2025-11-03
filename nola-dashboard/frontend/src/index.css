@@ -1,16 +1,25 @@
-/* === BASE DO TAILWIND === */
+/* ============================================================
+🎨 BASE GLOBAL DO TEMA E ESTILOS
+===============================================================
+Integra Tailwind CSS com variáveis de tema personalizadas 
+(light e dark), fontes, utilitários e ajustes responsivos.
+=========================================================== */
+
+/* === ⚙️ BASE DO TAILWIND === */
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
 
-/* === VARIÁVEIS DE TEMA === */
+/* ============================================================
+🌞 VARIÁVEIS DE TEMA — MODO CLARO (LIGHT)
+=========================================================== */
 :root {
-  /* Backgrounds e textos */
+  /* 🎨 Cores de fundo e texto */
   --background: 210 5% 98%;
   --foreground: 215 15% 15%;
   --muted-foreground: 215 10% 40%;
 
-  /* Botões, destaques e estados */
+  /* 🔵 Botões, destaques e estados */
   --primary: 217 91% 48%;
   --primary-foreground: 210 5% 98%;
   --secondary: 210 8% 87%;
@@ -20,13 +29,14 @@
   --destructive: 0 84% 45%;
   --destructive-foreground: 0 0% 98%;
 
-  /* Cards e superfícies */
+  /* 💳 Cards e superfícies */
   --card: 210 5% 96%;
   --card-foreground: 215 15% 15%;
   --card-border: 210 8% 92%;
-  --card-shadow: 0px 4px 6px -2px hsl(210 10% 10% / 0.05), 0px 10px 15px -3px hsl(210 10% 10% / 0.10);
+  --card-shadow: 0px 4px 6px -2px hsl(210 10% 10% / 0.05),
+                 0px 10px 15px -3px hsl(210 10% 10% / 0.10);
 
-  /* Sidebar e popover */
+  /* 🧭 Sidebar e popovers */
   --sidebar: 210 5% 94%;
   --sidebar-foreground: 215 15% 15%;
   --sidebar-primary: 217 91% 48%;
@@ -37,31 +47,34 @@
   --popover-foreground: 215 15% 15%;
   --popover-border: 210 8% 86%;
 
-  /* Inputs e rings */
+  /* 🧩 Inputs e focus rings */
   --input: 210 12% 82%;
   --ring: 217 91% 48%;
 
-  /* Gráficos */
+  /* 📊 Paleta de gráficos */
   --chart-1: 217 91% 48%;
   --chart-2: 142 76% 36%;
   --chart-3: 28 80% 52%;
   --chart-4: 280 65% 48%;
   --chart-5: 340 82% 52%;
 
-  /* Fontes e raio */
+  /* ✍️ Fontes e raios */
   --font-sans: 'Inter', Roboto, system-ui, -apple-system, sans-serif;
   --font-serif: Georgia, serif;
   --font-mono: "Roboto Mono", Menlo, monospace;
   --radius: 0.5rem; /* 8px */
 }
 
+/* ============================================================
+🌚 VARIÁVEIS DE TEMA — MODO ESCURO (DARK)
+=========================================================== */
 .dark {
-  /* Backgrounds e textos */
+  /* 🌑 Fundos e textos */
   --background: 215 5% 9%;
   --foreground: 210 5% 92%;
   --muted-foreground: 210 8% 65%;
 
-  /* Botões, destaques e estados */
+  /* 🟦 Botões e destaques */
   --primary: 217 91% 52%;
   --primary-foreground: 210 5% 98%;
   --secondary: 215 8% 20%;
@@ -71,13 +84,14 @@
   --destructive: 0 84% 50%;
   --destructive-foreground: 0 0% 98%;
 
-  /* Cards e superfícies */
+  /* 💳 Cards e superfícies */
   --card: 215 5% 11%;
   --card-foreground: 210 5% 92%;
   --card-border: 215 8% 16%;
-  --card-shadow: 0px 10px 15px -3px hsl(0 0% 0% / 0.20), 0px 20px 25px -5px hsl(0 0% 0% / 0.24);
+  --card-shadow: 0px 10px 15px -3px hsl(0 0% 0% / 0.20),
+                 0px 20px 25px -5px hsl(0 0% 0% / 0.24);
 
-  /* Sidebar e popover */
+  /* 🧭 Sidebar e popovers */
   --sidebar: 215 5% 13%;
   --sidebar-foreground: 210 5% 92%;
   --sidebar-primary: 217 91% 52%;
@@ -88,11 +102,11 @@
   --popover-foreground: 210 5% 92%;
   --popover-border: 215 8% 21%;
 
-  /* Inputs e rings */
+  /* 🧩 Inputs e rings */
   --input: 215 12% 28%;
   --ring: 217 91% 52%;
 
-  /* Gráficos */
+  /* 📈 Paleta de gráficos escuros */
   --chart-1: 217 91% 60%;
   --chart-2: 142 76% 55%;
   --chart-3: 28 80% 65%;
@@ -100,7 +114,9 @@
   --chart-5: 340 82% 65%;
 }
 
-/* === BASE GLOBAL === */
+/* ============================================================
+🧱 BASE GLOBAL
+=========================================================== */
 @layer base {
   html, body, #root {
     height: 100%;
@@ -113,16 +129,20 @@
     font-family: var(--font-sans);
     background-color: hsl(var(--background));
     color: hsl(var(--foreground));
-    @apply antialiased;
+    @apply antialiased; /* ✨ suaviza a renderização da fonte */
   }
 }
 
-/* === UTILITÁRIOS === */
+/* ============================================================
+🧩 UTILITÁRIOS PERSONALIZADOS
+=========================================================== */
 @layer utilities {
   .bg-background { background-color: hsl(var(--background)); }
   .text-muted-foreground { color: hsl(var(--muted-foreground)); }
   .bg-surface { background-color: hsl(var(--card)); }
   .border-surface { border-color: hsl(var(--card-border)); }
+
+  /* 🟦 Cores utilitárias para componentes */
   .text-primary { color: hsl(var(--primary)); }
   .bg-primary { background-color: hsl(var(--primary)); color: hsl(var(--primary-foreground)); }
   .text-secondary { color: hsl(var(--secondary)); }
@@ -133,7 +153,9 @@
   .bg-destructive { background-color: hsl(var(--destructive)); color: hsl(var(--destructive-foreground)); }
 }
 
-/* === AJUSTES RESPONSIVOS === */
+/* ============================================================
+📱 AJUSTES RESPONSIVOS E CONTAINERS
+=========================================================== */
 .container {
   @apply mx-auto px-4 sm:px-6 lg:px-8;
 }

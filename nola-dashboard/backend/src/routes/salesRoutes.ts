@@ -1,15 +1,17 @@
-import { Router } from 'express';
-import { getTopProdutos, getTopProdutosFiltrado } from '../controllers/salesController';
-import { getStores, getChannels } from '../controllers/metaController';
+/* 
+=========================================================
+🧭 Declaração das Rotas de Vendas (Sales Routes)
+=========================================================
+Este arquivo `.d.ts` (TypeScript Declaration File) informa ao 
+TypeScript que existe um `router` exportado em `salesRoutes.ts`.
 
-export const router = Router();
+Esse roteador é responsável por lidar com as rotas relacionadas 
+a vendas e produtos — por exemplo, listagem dos produtos mais 
+vendidos ou filtragem por data, canal e loja.
+*/
 
-// Rota original
-router.get('/top-produtos', getTopProdutos);
+// 📦 Exporta o router (instância do Express usada para agrupar as rotas)
+export declare const router: import("express-serve-static-core").Router;
 
-// 🆕 Rota com filtros
-router.get('/top-produtos/filtrado', getTopProdutosFiltrado);
-
-// Meta endpoints para popular selects
-router.get('/stores', getStores);
-router.get('/channels', getChannels);
+// 🗺️ Mapa de origem do TypeScript — usado apenas para debugging
+//# sourceMappingURL=salesRoutes.d.ts.map

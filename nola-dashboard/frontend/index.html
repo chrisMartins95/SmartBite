@@ -1,13 +1,34 @@
+<!-- ============================================================
+📄 ARQUIVO PRINCIPAL DO FRONTEND — index.html
+===============================================================
+Função:
+✅ Define a estrutura base do documento HTML
+✅ Carrega o app React dentro da div #root
+✅ Importa o script principal (main.tsx)
+✅ Configura meta tags e favicon
+=========================================================== -->
+
 <!doctype html>
 <html lang="en">
   <head>
+    <!-- 🧩 Define o charset (suporte a acentuação e caracteres especiais) -->
     <meta charset="UTF-8" />
+
+    <!-- 🪪 Ícone exibido na aba do navegador -->
     <link rel="icon" type="image/svg+xml" href="/vite.svg" />
+
+    <!-- 📱 Torna o site responsivo em dispositivos móveis -->
     <meta name="viewport" content="width=device-width, initial-scale=1" />
+
+    <!-- 🏷️ Título da aba -->
     <title>Vite + React + TS</title>
   </head>
+
   <body>
+    <!-- 🧱 Ponto de montagem do React (o App.tsx será renderizado aqui) -->
     <div id="root"></div>
+
+    <!-- ⚡ Importa o script principal do Vite (entry point da aplicação) -->
     <script type="module" src="/src/main.tsx"></script>
   </body>
 </html>

@@ -1,23 +1,30 @@
-/* 🎨 Variáveis de tema já definidas no index.css */
+/* ============================================================
+🎨 TEMA GLOBAL E ESTILOS BASE
+===============================================================
+Define o modo escuro, tipografia, componentes visuais 
+e responsividade do dashboard.
+=========================================================== */
 
-/* ✍️ Fonte moderna importada */
+/* ✍️ Importa fonte moderna */
 @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700;800&display=swap');
 
-/* === DARK MODE === */
+/* === 🌙 DARK MODE === */
 .dark {
-  --background: 17 20% 12%;    /* fundo geral */
-  --surface: 18 22% 15%;       /* fundo de cards/painéis */
-  --muted: 31 38% 42%;         /* fundo de select e elementos secundários */
-  --foreground: 230 8% 90%;    /* cor do texto */
-  --muted-foreground: 215 10% 50%; /* textos secundários */
-  --border: 44 51% 55%;        /* bordas */
-  --accent: 14 100% 50%;       /* cor principal / gradiente */
-  --accent-2: 16 100% 55%;     /* cor secundária / gradiente */
+  --background: 17 20% 12%;          /* Fundo geral */
+  --surface: 18 22% 15%;             /* Painéis e cards */
+  --muted: 31 38% 42%;               /* Campos secundários */
+  --foreground: 230 8% 90%;          /* Texto principal */
+  --muted-foreground: 215 10% 50%;   /* Texto secundário */
+  --border: 44 51% 55%;              /* Cor das bordas */
+  --accent: 14 100% 50%;             /* Cor principal */
+  --accent-2: 16 100% 55%;           /* Cor secundária */
   --card-shadow: 0 6px 18px rgba(0, 0, 0, 0.3);
-  --radius: 12px;
+  --radius: 12px;                    /* Arredondamento padrão */
 }
 
-/* 🧭 Sidebar */
+/* ============================================================
+🧭 SIDEBAR
+=========================================================== */
 .sidebar {
   width: 260px;
   background: hsl(var(--background));
@@ -44,11 +51,12 @@
   padding: 10px 12px;
   border-radius: var(--radius);
   display: flex;
-  gap: 10px;
   align-items: center;
+  gap: 10px;
   transition: all 0.2s;
 }
 
+/* ✨ Destaque e hover */
 .nav-item.active,
 .nav-item:hover {
   background: rgba(255, 255, 255, 0.05);
@@ -61,16 +69,20 @@
   font-size: 0.9rem;
 }
 
-/* 🧩 Área de conteúdo */
+/* ============================================================
+🧩 CONTEÚDO PRINCIPAL
+=========================================================== */
 .content {
   flex: 1;
   padding: 20px 28px;
+  background: hsl(var(--background));
   width: 100%;
   box-sizing: border-box;
-  background: hsl(var(--background));
 }
 
-/* 💳 Cards */
+/* ============================================================
+💳 MÉTRICAS (CARDS)
+=========================================================== */
 .metric-card {
   border: 1px solid hsl(var(--border));
   background: hsl(var(--surface));
@@ -105,7 +117,9 @@
   margin-bottom: 6px;
 }
 
-/* 📊 Grid de métricas */
+/* ============================================================
+📊 GRID DE MÉTRICAS
+=========================================================== */
 .metrics-row {
   display: grid;
   grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
@@ -115,13 +129,14 @@
   box-sizing: border-box;
 }
 
-/* 📈 Painéis e gráficos */
+/* ============================================================
+📈 GRÁFICOS E PAINÉIS
+=========================================================== */
 .dashboard-grid {
   display: grid;
   grid-template-columns: 2fr 1fr;
   gap: 20px;
   width: 100%;
-  box-sizing: border-box;
 }
 
 .panel {
@@ -138,7 +153,9 @@
   font-weight: 600;
 }
 
-/* 📱 Responsividade */
+/* ============================================================
+📱 RESPONSIVIDADE
+=========================================================== */
 @media (max-width: 1024px) {
   .dashboard-grid {
     grid-template-columns: 1fr;
@@ -159,7 +176,9 @@
   }
 }
 
-/* ✨ Cabeçalho */
+/* ============================================================
+✨ CABEÇALHO (Header)
+=========================================================== */
 .site-header {
   background: linear-gradient(90deg, hsl(var(--accent-2)), hsl(var(--accent)));
   color: hsl(var(--foreground));
@@ -174,7 +193,9 @@
   font-size: 1.25rem;
 }
 
-/* Botões */
+/* ============================================================
+🧮 BOTÕES E AÇÕES
+=========================================================== */
 .nav-actions button {
   background: hsl(var(--surface));
   border: 1px solid hsl(var(--border));
@@ -189,7 +210,9 @@
   background: hsl(var(--muted));
 }
 
-/* 🪶 Tabelas */
+/* ============================================================
+🪶 TABELAS
+=========================================================== */
 .data-table {
   width: 100%;
   border-collapse: collapse;
@@ -213,12 +236,16 @@
   background: hsl(var(--surface) / 0.05);
 }
 
-/* 🧠 Tipografia */
+/* ============================================================
+🧠 TIPOGRAFIA GLOBAL
+=========================================================== */
 h1, h2, h3 {
   color: hsl(var(--foreground));
 }
 
-/* ✅ Correção final do calendário react-day-picker */
+/* ============================================================
+📅 CORREÇÃO — react-day-picker
+=========================================================== */
 .rdp-table {
   width: 100% !important;
   table-layout: fixed !important;

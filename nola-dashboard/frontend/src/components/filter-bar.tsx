@@ -1,3 +1,4 @@
+// 📦 Importa hooks do React e componentes reutilizáveis da interface
 import { useEffect, useState } from "react";
 import { Button } from "../components/ui/button";
 import { Calendar } from "../components/ui/calendar";
@@ -18,8 +19,28 @@ import { format } from "date-fns";
 import { cn } from "../lib/utils";
 import type { DateRange } from "react-day-picker";
 
+// 🔗 Funções que buscam dados de canais e lojas no backend
 import { getChannels, getStores } from "../api/dashboardMetaService";
 
+/* ============================================================
+📅 FUNÇÃO AUXILIAR: getDefaultRange
+===============================================================
+Define o intervalo de datas padrão (últimos 30 dias)
+para inicializar o filtro.
+=========================================================== */
+const getDefaultRange = () => {
+  const to = new Date();
+  const from = new Date();
+  from.setDate(to.getDate() - 30);
+  return { from, to };
+};
+
+/* ============================================================
+🧩 INTERFACES DE TIPAGEM
+===============================================================
+FilterState — Estrutura do estado completo dos filtros
+FilterBarProps — Props do componente (callback onFilterChange)
+=========================================================== */
 interface FilterBarProps {
   onFilterChange?: (filters: FilterState) => void;
 }
@@ -31,32 +52,49 @@ export interface FilterState {
   quickFilter: string;
 }
 
+/* ============================================================
+🧭 COMPONENTE: FilterBar
+===============================================================
+Barra de filtros usada no dashboard para selecionar:
+- Intervalo de datas (manual ou rápido)
+- Canal de venda
+- Loja
+- Reset dos filtros
+=========================================================== */
 export function FilterBar({ onFilterChange }: FilterBarProps) {
-  const [dateRange, setDateRange] = useState<DateRange | undefined>({
-    from: new Date(),
-    to: new Date(),
-  });
+  // 🗓️ Estado do intervalo de datas
+  const [dateRange, setDateRange] = useState<DateRange>(getDefaultRange());
 
+  // 🧩 Filtros ativos
   const [channel, setChannel] = useState<number | "all">("all");
   const [store, setStore] = useState<number | "all">("all");
   const [quickFilter, setQuickFilter] = useState<string>("30");
 
+  // 📋 Dados carregados do backend
   const [channelList, setChannelList] = useState<any[]>([]);
   const [storeList, setStoreList] = useState<any[]>([]);
 
+  /* ============================================================
+  🔄 EFEITO: Carrega canais e lojas ao montar o componente
+  ============================================================ */
   useEffect(() => {
     async function loadMeta() {
       const [channels, stores] = await Promise.all([
         getChannels(),
         getStores(),
       ]);
-
       setChannelList(channels);
       setStoreList(stores);
     }
     loadMeta();
   }, []);
 
+  /* ============================================================
+  📡 EMISSOR DE MUDANÇAS
+  ============================================================
+  Sempre que o usuário altera um filtro, essa função dispara
+  o callback `onFilterChange` com o estado atualizado.
+  ============================================================ */
   const emitChange = (override = {}) => {
     onFilterChange?.({
       dateRange: {
@@ -66,10 +104,13 @@ export function FilterBar({ onFilterChange }: FilterBarProps) {
       channel,
       store,
       quickFilter,
-      ...override,
+      ...override, // 🔁 Sobrescreve o que for alterado
     });
   };
 
+  /* ============================================================
+  ⚡ FILTROS RÁPIDOS (últimos 7, 30 ou 90 dias)
+  ============================================================ */
   const handleQuickFilter = (days: string) => {
     setQuickFilter(days);
 
@@ -86,8 +127,13 @@ export function FilterBar({ onFilterChange }: FilterBarProps) {
     });
   };
 
+  /* ============================================================
+  ♻️ RESET DE FILTROS
+  ============================================================
+  Restaura todos os valores para o estado inicial (últimos 30 dias)
+  ============================================================ */
   const handleReset = () => {
-    const resetRange = { from: new Date(), to: new Date() };
+    const resetRange = getDefaultRange();
 
     setDateRange(resetRange);
     setChannel("all");
@@ -102,10 +148,14 @@ export function FilterBar({ onFilterChange }: FilterBarProps) {
     });
   };
 
+  /* ============================================================
+  🧱 INTERFACE VISUAL
+  ============================================================ */
   return (
     <div className="flex flex-wrap items-center gap-4 p-4 bg-muted border-b border-border">
-
-      {/* ✅ Filtros rápidos */}
+      {/* ============================================================
+      ⚡ FILTROS RÁPIDOS DE PERÍODO
+      ============================================================ */}
       <div className="flex flex-wrap gap-2">
         <Button
           variant={quickFilter === "7" ? "default" : "outline"}
@@ -132,9 +182,12 @@ export function FilterBar({ onFilterChange }: FilterBarProps) {
         </Button>
       </div>
 
+      {/* 📏 Divisor visual */}
       <div className="h-8 w-px bg-foreground/20" />
 
-      {/* ✅ Botão do calendário arrumado */}
+      {/* ============================================================
+      📅 SELETOR DE INTERVALO (CALENDÁRIO)
+      ============================================================ */}
       <Popover>
         <PopoverTrigger asChild>
           <Button
@@ -157,6 +210,7 @@ export function FilterBar({ onFilterChange }: FilterBarProps) {
             selected={dateRange}
             numberOfMonths={2}
             onSelect={(range) => {
+              if (!range) return;
               setDateRange(range);
               if (!range?.from || !range?.to) return;
 
@@ -168,7 +222,9 @@ export function FilterBar({ onFilterChange }: FilterBarProps) {
         </PopoverContent>
       </Popover>
 
-      {/* ✅ CANAL — AGORA NÃO QUEBRA E NÃO ESTICA */}
+      {/* ============================================================
+      🏪 SELETOR DE CANAL
+      ============================================================ */}
       <div className="flex items-center gap-2 shrink-0">
         <Select
           value={channel === "all" ? "all" : String(channel)}
@@ -193,7 +249,9 @@ export function FilterBar({ onFilterChange }: FilterBarProps) {
         </Select>
       </div>
 
-      {/* ✅ LOJA — TAMBÉM FIXADO */}
+      {/* ============================================================
+      🏬 SELETOR DE LOJA
+      ============================================================ */}
       <div className="flex items-center gap-2 shrink-0">
         <Select
           value={store === "all" ? "all" : String(store)}
@@ -218,6 +276,9 @@ export function FilterBar({ onFilterChange }: FilterBarProps) {
         </Select>
       </div>
 
+      {/* ============================================================
+      🔄 BOTÃO RESETAR FILTROS
+      ============================================================ */}
       <Button variant="ghost" size="sm" onClick={handleReset}>
         <RotateCcw className="mr-2 h-4 w-4" />
         Resetar
