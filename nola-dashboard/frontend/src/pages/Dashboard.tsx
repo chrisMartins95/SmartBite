@@ -6,6 +6,7 @@ import {
   getTopProducts,
   getRecentTransactions
 } from "../api/dashboardService";
+
 import { MetricCard } from "../components/metric-card";
 import { FilterBar, type FilterState } from "../components/filter-bar";
 
@@ -28,7 +29,7 @@ import { DollarSign } from "lucide-react";
 
 const COLORS = ["#3B82F6", "#10B981", "#F59E0B", "#EF4444"];
 
-// ✅ Moeda humanizada
+// ✅ Formatação humanizada
 const currencyHuman = (n: number | string) => {
   const v = typeof n === "string" ? parseFloat(n) : n;
 
@@ -42,7 +43,6 @@ const currencyHuman = (n: number | string) => {
   }).format(v);
 };
 
-// ✅ Número humanizado
 const numberHuman = (n: number | string) => {
   const v = typeof n === "string" ? parseFloat(n) : n;
 
@@ -53,7 +53,7 @@ const numberHuman = (n: number | string) => {
   return `${v}`;
 };
 
-// ✅ Moeda normal (para tabela)
+// ✅ Moeda normal
 const currency = (v: number | string) => {
   const n = typeof v === "string" ? parseFloat(v) : v;
   return new Intl.NumberFormat("pt-BR", {
@@ -61,6 +61,7 @@ const currency = (v: number | string) => {
     currency: "BRL"
   }).format(n || 0);
 };
+
 
 export default function Dashboard() {
   const [filter, setFilter] = useState<Partial<FilterState>>({});
@@ -72,31 +73,36 @@ export default function Dashboard() {
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
 
+  // ✅ agora o dashboard atualiza ao mudar filtros
   useEffect(() => {
     async function fetchAll() {
       setLoading(true);
       setError(null);
+
       try {
         const [m, r, c, p, t] = await Promise.all([
-          getMetrics(),
-          getRevenueTrend(),
-          getSalesByChannel(),
-          getTopProducts(),
-          getRecentTransactions()
+          getMetrics(filter),
+          getRevenueTrend(filter),
+          getSalesByChannel(filter),
+          getTopProducts(filter),
+          getRecentTransactions(filter),
         ]);
+
         setMetrics(m);
         setRevenueData(r);
         setChannelData(c);
         setProductData(p);
         setTransactions(t);
       } catch (err) {
+        console.error("Erro ao carregar dashboard:", err);
         setError("Erro ao carregar dados do dashboard");
       } finally {
         setLoading(false);
       }
     }
+
     fetchAll();
-  }, []);
+  }, [filter]); // ✅ ESSA LINHA É O QUE FALTAVA
 
   return (
     <div className="p-6 space-y-4 bg-background">
@@ -210,6 +216,7 @@ export default function Dashboard() {
               </PieChart>
             </ResponsiveContainer>
           </div>
+
         </div>
       )}
 

@@ -1,6 +1,5 @@
 import { Router } from 'express';
 import { getTopProdutos, getTopProdutosFiltrado } from '../controllers/salesController';
-import { explorar } from '../controllers/exploreController';
 import { getStores, getChannels } from '../controllers/metaController';
 
 export const router = Router();
@@ -10,9 +9,6 @@ router.get('/top-produtos', getTopProdutos);
 
 // 🆕 Rota com filtros
 router.get('/top-produtos/filtrado', getTopProdutosFiltrado);
-
-// Rota para exploração (métricas + top produtos + breakdowns)
-router.get('/explorar', explorar);
 
 // Meta endpoints para popular selects
 router.get('/stores', getStores);
