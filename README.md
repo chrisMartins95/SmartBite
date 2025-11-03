@@ -110,16 +110,17 @@ Endpoint	Descrição
 
 📈 Performance e Escalabilidade
 Consultas SQL otimizadas com GROUP BY e índices sugeridos (created_at, store_id, channel_id).
-
+```bash
 Paginação nas consultas grandes (transações).
 
 Estrutura pronta para cache (Redis) e materialized views.
 
 Frontend leve (React + Vite) e responsivo.
+```
 
 🎨 UX / UI
 Interface moderna e limpa, focada em legibilidade.
-
+```bash
 Tipografia Inter (Google Fonts).
 
 Tema escuro como padrão (mas alternável).
@@ -127,10 +128,10 @@ Tema escuro como padrão (mas alternável).
 Layout responsivo (mobile, tablet e desktop).
 
 Foco em acessibilidade: contraste e botões com aria-label.
-
-
+```
 
 💡 Próximos Passos / Extensões
+```bash
 Exportar relatórios (CSV/PDF).
 
 Insights automáticos (alertas de variação acima de X%).
@@ -145,6 +146,7 @@ Unitários: funções utilitárias (currencyHuman, numberHuman, buildDashboardFi
 Integração: endpoints com Jest + Supertest.
 
 E2E (opcional): Cypress — fluxo de uso completo no dashboard.
+```
 
 🧾 Licença
 Este projeto foi desenvolvido exclusivamente para o desafio técnico de estágio, com foco educacional e de demonstração.
